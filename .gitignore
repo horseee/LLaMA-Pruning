@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info
+*.eg
+ckpt
+*.ckpt
+*.pth
+
+*.ipynb
+*.bin

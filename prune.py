@@ -55,7 +55,7 @@ def load(
     ), f"Loading a checkpoint for MP={len(checkpoints)} but world size is {world_size}"
     ckpt_path = checkpoints[local_rank]
     print("Loading")
-    #checkpoint = torch.load(ckpt_path, map_location="cpu")
+    checkpoint = torch.load(ckpt_path, map_location="cpu")
     with open(Path(ckpt_dir) / "params.json", "r") as f:
         params = json.loads(f.read())
 
@@ -67,7 +67,7 @@ def load(
     torch.set_default_tensor_type(torch.cuda.HalfTensor)
     model = Transformer(model_args)
     torch.set_default_tensor_type(torch.FloatTensor)
-    #model.load_state_dict(checkpoint, strict=False)
+    model.load_state_dict(checkpoint, strict=False)
 
     generator = LLaMA(model, tokenizer)
     print(f"Loaded in {time.time() - start_time:.2f} seconds")
@@ -76,6 +76,7 @@ def load(
 def main(
     ckpt_dir: str,
     tokenizer_path: str,
+    save_ckpt_path: str,
     temperature: float = 0.8,
     top_p: float = 0.95,
     max_seq_len: int = 512,
@@ -83,7 +84,6 @@ def main(
     local_rank: int = -1,
 ):
     local_rank, world_size = setup_model_parallel()
-    #local_rank, world_size = 0, 1
     if local_rank > 0:
         sys.stdout = open(os.devnull, "w")
     
@@ -118,7 +118,7 @@ plush girafe => girafe peluche
 
 cheese =>""",
     ]
-    '''
+    
     generator.model.eval()
     with torch.no_grad():
         results = generator.generate(
@@ -129,8 +129,7 @@ cheese =>""",
     for result in results:
         print(result)
     print("\n==================Finish================\n")
-    '''
-
+    
     for param in generator.model.parameters():
         param.requires_grad_(True)
     before_pruning_parameters = sum(p.numel() for p in generator.model.parameters() if p.requires_grad)
@@ -164,7 +163,6 @@ cheese =>""",
         pruner.step()
         after_pruning_parameters = sum(p.numel() for p in generator.model.parameters() if p.requires_grad)
         print("#Param before: {}, #Param after: {}".format(before_pruning_parameters, after_pruning_parameters))
-        #macs, nparams = tp.utils.count_ops_and_params(model, example_inputs)
 
     # modify inferece-related attributes
     generator.model.params.dim = int(0.5 * generator.model.params.dim)
@@ -176,7 +174,7 @@ cheese =>""",
     gc.collect()
     torch.cuda.empty_cache()
     generator.model.to('cuda')
-    torch.save(generator.model, 'pruned_llama.ckpt')
+    torch.save(generator.model, os.path.join('{}.bin'.format(save_ckpt_path)))
 
     generator.model.eval()
     with torch.no_grad():
@@ -188,8 +186,6 @@ cheese =>""",
     for result in results:
         print(result)
         print("\n==================Finish================\n")
-    
-
 
 if __name__ == "__main__":
     fire.Fire(main)

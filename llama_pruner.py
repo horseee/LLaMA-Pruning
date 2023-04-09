@@ -33,9 +33,7 @@ class RMSNormPrunner(BasePruningFunc):
 class AttentionPrunner(BasePruningFunc):
 
     def prune_out_channels(self, layer: nn.Module, idxs: Sequence[int]) -> nn.Module:
-        print(len(idxs), layer.n_heads, layer.dim)
         assert len(idxs) % layer.n_heads == 0
-        #print("Pruning Attention Layer: {}".format(layer))
         
         for sub_layer in [layer.wq, layer.wk, layer.wv, layer.wo]:
             keep_idxs = list(set(range(sub_layer.out_features)) - set(idxs))

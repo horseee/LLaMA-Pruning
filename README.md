@@ -1,4 +1,4 @@
-<div align="left"> <h1>LLaMA-Pruning: Structural Pruning for LLaMa</h1> </div>
+<div align="left"> <h1>LLaMa-Pruning: Structural Pruning for LLaMa</h1> </div>
 
 This repository procides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their enormous number of parameters, often present challenges related to their size and computational demands. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
 
@@ -8,7 +8,7 @@ This repository procides minimal examples of pruning Large Language Models (LLMs
 **TODO List:**
 * Structural Pruning for LLaMa-13B/33B/65B
 * More pruners: Magnitude-based Pruning / Sailency-based Pruning
-* Finetuning Code.
+* Finetuning and Testing.
 
 
 ## Qucik Start
@@ -24,11 +24,20 @@ Prepare pretrained models following the [official instructions](https://github.c
 ### 2. LLaMa-7B => LLaMa-1.7B
 * \#Params: 6.73B => 1.72B  
 * GPU RAM: 22,067M => 7,781 M
-* Requires 20GB GPU memory on a single 3090.
+* Requires ~20GB GPU memory on a single 3090 to prune the model.
 
+The instruction for pruning the model:
 ```bash
-CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
+python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model --save_ckpt_path 'llama_prune_1.7B'
 ```
+
+The instruction for loading and testing the pruned model:
+```bash
+python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --ckpt_dir llama_prune_1.7B.bin --tokenizer_path ckpt/LLaMa/tokenizer.model
+```
+
+Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMa.
+
 
 ### 3. Finetuning
 

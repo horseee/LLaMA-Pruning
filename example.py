@@ -117,6 +117,7 @@ cheese =>""",
         print(result)
         print("\n==================Finish================\n")
 
+    print("Memory Requirement: {} MiB".format(torch.cuda.memory_allocated()/1024/1024))
 
 if __name__ == "__main__":
     fire.Fire(main)

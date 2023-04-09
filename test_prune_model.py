@@ -81,7 +81,7 @@ plush girafe => girafe peluche
 cheese =>""",
     ]
     tokenizer = Tokenizer(model_path=tokenizer_path)
-    model = torch.load('pruned_llama.ckpt', map_location='cpu').to('cuda')
+    model = torch.load(ckpt_dir, map_location='cpu').to('cuda')
     generator = LLaMA(model, tokenizer)
 
     generator.model.eval()
@@ -94,6 +94,9 @@ cheese =>""",
     for result in results:
         print(result)
         print("\n==================Finish================\n")
+    
+    print("Memory Requirement: {} MiB\n".format(torch.cuda.memory_allocated()/1024/1024))
+
     
 
 
