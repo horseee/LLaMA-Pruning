@@ -25,14 +25,14 @@ This repository provides minimal examples of pruning Large Language Models (LLMs
 LLMs, characterized by their incredibly large number of parameters and computational demands, often present huge challenges to downstream applications. Structural Pruning offers a potential solution to this issue by removing parameters from models. To this end, this project aims to build a straightforward and general pipeline for the pruning of LLaMA and its variants.
 
 **Available Features:**
-* [Layer Pruner](https://github.com/horseee/LLaMA-Pruning/blob/main/llama_pruner.py) for basic layers in LLaMA.
-* Random Structural Pruning for LLaMA-7B.
+- [x] [Layer Pruner](https://github.com/horseee/LLaMA-Pruning/blob/main/llama_pruner.py) for basic layers in LLaMA.
+- [x] Random Structural Pruning for LLaMA-7B.
 
 **TODO List:**
-* Structural Pruning for LLaMA-13B/33B/65B.
-* More pruners: Magnitude-based Pruning / Sailency-based Pruning.
-* Code for finetuning and testing.
-* More LLaMA variants.
+- [ ] Structural Pruning for LLaMA-13B/33B/65B.
+- [ ] More pruners: Magnitude-based Pruning / Sailency-based Pruning.
+- [ ] Code for finetuning and testing.
+- [ ] More LLaMA variants.
 
 
 ## Qucik Start
