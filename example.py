@@ -3,28 +3,17 @@
 
 from typing import Tuple
 import os
-import gc
 import sys
 import torch
 import fire
 import time
 import json
 
-import torch_pruning as tp 
-from llama_pruner import RMSNormPrunner, AttentionPrunner
-
 from pathlib import Path
 
 from fairscale.nn.model_parallel.initialize import initialize_model_parallel
 
 from llama import ModelArgs, Transformer, Tokenizer, LLaMA
-from llama.model import RMSNorm, Attention, precompute_freqs_cis
-
-from fairscale.nn.model_parallel.layers import (
-    ParallelEmbedding,
-    RowParallelLinear,
-    ColumnParallelLinear,
-)
 
 
 def setup_model_parallel() -> Tuple[int, int]:
@@ -55,7 +44,7 @@ def load(
     ), f"Loading a checkpoint for MP={len(checkpoints)} but world size is {world_size}"
     ckpt_path = checkpoints[local_rank]
     print("Loading")
-    #checkpoint = torch.load(ckpt_path, map_location="cpu")
+    checkpoint = torch.load(ckpt_path, map_location="cpu")
     with open(Path(ckpt_dir) / "params.json", "r") as f:
         params = json.loads(f.read())
 
@@ -67,11 +56,12 @@ def load(
     torch.set_default_tensor_type(torch.cuda.HalfTensor)
     model = Transformer(model_args)
     torch.set_default_tensor_type(torch.FloatTensor)
-    #model.load_state_dict(checkpoint, strict=False)
+    model.load_state_dict(checkpoint, strict=False)
 
     generator = LLaMA(model, tokenizer)
     print(f"Loaded in {time.time() - start_time:.2f} seconds")
     return generator
+
 
 def main(
     ckpt_dir: str,
@@ -83,10 +73,9 @@ def main(
     local_rank: int = -1,
 ):
     local_rank, world_size = setup_model_parallel()
-    #local_rank, world_size = 0, 1
     if local_rank > 0:
         sys.stdout = open(os.devnull, "w")
-    
+
     generator = load(
         ckpt_dir, tokenizer_path, local_rank, world_size, max_seq_len, max_batch_size
     )
@@ -118,77 +107,15 @@ plush girafe => girafe peluche
 
 cheese =>""",
     ]
-    '''
     generator.model.eval()
     with torch.no_grad():
         results = generator.generate(
             prompts, max_gen_len=256, temperature=temperature, top_p=top_p, device="cuda"
         )
-    
-    print("\n==================Generation Results before Training================\n")
-    for result in results:
-        print(result)
-    print("\n==================Finish================\n")
-    '''
 
-    for param in generator.model.parameters():
-        param.requires_grad_(True)
-    before_pruning_parameters = sum(p.numel() for p in generator.model.parameters() if p.requires_grad)
-    
-    example_prompts = torch.tensor([
-        [    1,   306,  4658,   278,  6593,   310,  2834,   338],
-        [    1,  3439, 17632,  1925, 29892,   278,  6368,   310],
-    ]).cuda()
-
-    imp = tp.importance.RandomImportance()
-    
-    iterative_steps = 1 
-    pruner = tp.pruner.MagnitudePruner(
-        generator.model,
-        example_prompts,
-        importance=imp,
-        iterative_steps=iterative_steps,
-        ch_sparsity=0.5, # remove 50% channels, ResNet18 = {64, 128, 256, 512} => ResNet18_Half = {32, 64, 128, 256}
-        ignored_layers=[],
-        customized_pruners = {
-            Attention: AttentionPrunner(),
-            RMSNorm: RMSNormPrunner(),
-            ColumnParallelLinear: tp.pruner.function.LinearPruner(),
-            RowParallelLinear: tp.pruner.function.LinearPruner(),
-            ParallelEmbedding: tp.pruner.function.EmbeddingPruner()
-        },
-        root_module_types = [ParallelEmbedding, RMSNorm, RowParallelLinear, ColumnParallelLinear, Attention]
-    )
-
-    for i in range(iterative_steps):
-        pruner.step()
-        after_pruning_parameters = sum(p.numel() for p in generator.model.parameters() if p.requires_grad)
-        print("#Param before: {}, #Param after: {}".format(before_pruning_parameters, after_pruning_parameters))
-        #macs, nparams = tp.utils.count_ops_and_params(model, example_inputs)
-
-    # modify inferece-related attributes
-    generator.model.params.dim = int(0.5 * generator.model.params.dim)
-    generator.model.freqs_cis = precompute_freqs_cis(
-            generator.model.params.dim // generator.model.params.n_heads, generator.model.params.max_seq_len * 2
-    )
-
-    del pruner, example_prompts
-    gc.collect()
-    torch.cuda.empty_cache()
-    generator.model.to('cuda')
-    torch.save(generator.model, 'pruned_llama.ckpt')
-
-    generator.model.eval()
-    with torch.no_grad():
-        results = generator.generate(
-            prompts, max_gen_len=256, temperature=temperature, top_p=top_p, device="cuda"
-        )
-    
-    print("\n==================Generation Results After Training================\n")
     for result in results:
         print(result)
         print("\n==================Finish================\n")
-    
 
 
 if __name__ == "__main__":

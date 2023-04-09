@@ -33,6 +33,7 @@ class RMSNormPrunner(BasePruningFunc):
 class AttentionPrunner(BasePruningFunc):
 
     def prune_out_channels(self, layer: nn.Module, idxs: Sequence[int]) -> nn.Module:
+        print(len(idxs), layer.n_heads, layer.dim)
         assert len(idxs) % layer.n_heads == 0
         #print("Pruning Attention Layer: {}".format(layer))
         
@@ -41,9 +42,9 @@ class AttentionPrunner(BasePruningFunc):
             keep_idxs.sort()
             sub_layer.out_features = sub_layer.out_features-len(idxs)
 
-            sub_layer.weight = torch.nn.Parameter(sub_layer.weight.data.cpu().clone()[keep_idxs])
+            sub_layer.weight = torch.nn.Parameter(sub_layer.weight.data[keep_idxs])
             if sub_layer.bias is not None:
-                sub_layer.bias = torch.nn.Parameter(sub_layer.bias.data.cpu().clone()[keep_idxs])
+                sub_layer.bias = torch.nn.Parameter(sub_layer.bias.data[keep_idxs])
             
             keep_idxs = list(set(range(sub_layer.in_features)) - set(idxs))
             keep_idxs.sort()
