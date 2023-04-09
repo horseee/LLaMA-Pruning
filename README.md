@@ -15,7 +15,7 @@ Following instructions from [the official repo](https://github.com/facebookresea
 CUDA_VISIBLE_DEVICES=4 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
 
-## Downstream Finetuning
+## Finetuning
 
 We are still developing fintuning code for downstream tasks.
 
