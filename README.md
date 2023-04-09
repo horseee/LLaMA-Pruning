@@ -1,5 +1,28 @@
 <div align="left"> <h1>LLaMA-Pruning: Structural Pruning for LLaMA</h1> </div>
 
+<div align="left">
+  <a href="https://opensource.org/licenses/GPL-3.0">
+    <img src="https://img.shields.io/badge/License-GPL%203.0-4caf50.svg?style=flat-square" alt="License: GPL-3.0">
+  </a>
+  <a href="https://pytorch.org/">
+    <img src="https://img.shields.io/badge/PyTorch-%3E%3D1.11.0-673ab7.svg?style=flat-square" alt="PyTorch >=1.11.0">
+  </a>
+  <a href="https://github.com/horseee/LLaMA-Pruning/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/horseee/LLaMA-Pruning.svg?style=flat-square&color=9c27b0" alt="Contributors">
+  </a>
+  <a href="https://github.com/VainF/Torch-Pruning">
+    <img src="https://img.shields.io/badge/Torch--Pruning-v1.1.5-3f51b5.svg?style=flat-square" alt="Torch-Pruning">
+  </a>
+  <a href="https://github.com/your_username/your_repo">
+    <img src="https://img.shields.io/badge/Meta-LLaMA-2196f3.svg?style=flat-square" alt="LLaMA">
+  </a>
+</div>
+
+
+
+
+
+
 This repository provides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their incredibly large number of parameters and computational demands, often present huge challenges to downstream applications. Structural Pruning offers a potential solution to this issue by removing parameters from models. To this end, this project aims to build a straightforward and general pipeline for the pruning of LLaMA and its variants.
 
 **Available Pruners:**
