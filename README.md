@@ -36,7 +36,7 @@ The instruction for loading and testing the pruned model:
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --save_ckpt_name llama_prune_1.7B --tokenizer_path ckpt/LLaMA/tokenizer.model
 ```
 
-Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMa.
+Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMA.
 
 
 ### 3. Finetuning
