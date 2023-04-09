@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/License-GPL%203.0-4caf50.svg?style=flat-square" alt="License: GPL-3.0">
   </a>
   <a href="https://pytorch.org/">
-    <img src="https://img.shields.io/badge/PyTorch-%3E%3D1.11.0-673ab7.svg?style=flat-square" alt="PyTorch >=1.11.0">
+    <img src="https://img.shields.io/badge/PyTorch-%3E%3D1.11.0-673ab7.svg?style=flat-square" alt="PyTorch >=v1.11.0">
   </a>
   <a href="https://github.com/horseee/LLaMA-Pruning/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/horseee/LLaMA-Pruning.svg?style=flat-square&color=9c27b0" alt="Contributors">
