@@ -50,8 +50,8 @@ We are still developing fintuning code for downstream tasks.
 
 ## Acknowledgement
 
-The LLaMA model is adapted from [facebookresearch/llama](https://github.com/facebookresearch/llama)
-Pruning is powered by [VainF/Torch-Pruning](https://github.com/VainF/Torch-Pruning)
+The LLaMA model is adapted from [facebookresearch/llama](https://github.com/facebookresearch/llama).  
+Pruning is powered by [VainF/Torch-Pruning](https://github.com/VainF/Torch-Pruning).
 
 ## Citation
 ```
