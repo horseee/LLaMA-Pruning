@@ -12,3 +12,4 @@ ckpt
 
 *.ipynb
 *.bin
+log.txt

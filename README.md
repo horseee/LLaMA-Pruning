@@ -36,7 +36,7 @@ The instruction for loading and testing the pruned model:
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --save_ckpt_name llama_prune_1.7B --tokenizer_path ckpt/LLaMA/tokenizer.model
 ```
 
-Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMA.
+Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMA. The pruning ratio needs to be a multiple of n/64, where n is an integer. This relates to the partitioning of dimension in multi-head attention.
 
 
 ### 3. Finetuning

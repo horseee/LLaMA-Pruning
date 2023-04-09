@@ -166,7 +166,7 @@ cheese =>""",
         print("#Param before: {}, #Param after: {}".format(before_pruning_parameters, after_pruning_parameters))
 
     # modify inferece-related attributes
-    generator.model.params.dim = int(0.5 * generator.model.params.dim)
+    generator.model.params.dim = int(pruning_ratio * generator.model.params.dim)
     generator.model.freqs_cis = precompute_freqs_cis(
             generator.model.params.dim // generator.model.params.n_heads, generator.model.params.max_seq_len * 2
     )
