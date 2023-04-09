@@ -1,4 +1,4 @@
-<div align="center"> <h1>LLaMA-Pruning <br> <h3>Structural Pruning for LLaMa<h3> </h1> </div>
+<div align="left"> <h1>LLaMA-Pruning: Structural Pruning for LLaMa</h1> </div>
 
 This repsository is intended as a intial exploration for pruning Large Language Models (LLMs). 
 
