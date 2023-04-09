@@ -28,7 +28,7 @@ Prepare pretrained models following the [official instructions](https://github.c
 
 The instruction for pruning the model:
 ```bash
-python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model --save_ckpt_name 'llama_prune_1.7B'
+python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model --pruning_ratio 0.5 --save_ckpt_name 'llama_prune_1.7B'
 ```
 
 The instruction for loading and testing the pruned model:

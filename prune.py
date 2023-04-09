@@ -77,6 +77,7 @@ def main(
     ckpt_dir: str,
     tokenizer_path: str,
     save_ckpt_name: str,
+    pruning_ratio: int = 0.5,
     temperature: float = 0.8,
     top_p: float = 0.95,
     max_seq_len: int = 512,
@@ -147,7 +148,7 @@ cheese =>""",
         example_prompts,
         importance=imp,
         iterative_steps=iterative_steps,
-        ch_sparsity=0.5, # remove 50% channels, ResNet18 = {64, 128, 256, 512} => ResNet18_Half = {32, 64, 128, 256}
+        ch_sparsity=pruning_ratio, # remove 50% channels, ResNet18 = {64, 128, 256, 512} => ResNet18_Half = {32, 64, 128, 256}
         ignored_layers=[],
         customized_pruners = {
             Attention: AttentionPrunner(),
