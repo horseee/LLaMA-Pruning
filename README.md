@@ -20,38 +20,13 @@ Prepare pretrained models following the [official instructions](https://github.c
 
 ### 2. Structural Pruning without Re-training
 
-#### 2.1 LLaMa-7B => LLaMa-1.6B
+#### 2.1 LLaMa-7B => LLaMa-1.7B
+* \#Params: 6.73B => 1.72B  
+* Requires 20GB GPU memory on a single 3090.
+
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
-
-#### 2.2 Outputs of Pruned LLaMA-7B
-
-<hr>
-  
-* **Prompt 1:**
-  "I believe the meaning of life is",
-
-* **Outputs 1 (Before Pruning):**
-  
-  I believe the meaning of life is to find happiness and be satisfied with what you have. 
-  People have different definitions of happiness. Some people feel that if they could only 
-  win the lottery, they would be happy. Some people feel that if they could only get that promotion, 
-  they would be happy. Some people feel that if they could only be the top scorer in a game, they would be happy.
-  If you do not know what happiness is, I suggest you ask a psychologist. 
-  A psychologist has studied the subject of happiness and he or she knows what happiness is. 
-  A psychologist has a Ph.D. in psychology and is a licensed psychologist.
-  Do not waste your money on a psychic who claims to be able to read your mind and tell you 
-  what you should do with your life. I have seen many psychics, and I have never met one who could read my mind. 
-  The psychics are all just wasting your money.
-  Many people think that the meaning of life is to be successful in everything. 
-  But, I believe that the meaning of life is to be content with what you have. I believe that happiness is the meaning of life.
-  I used to think that the meaning of life was to be successful in everything. I was
-
-* **Outputs 2 (After Pruning):**
-  
-<hr>
-
 
 #### 2.3 Finetuning
 
