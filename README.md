@@ -18,9 +18,7 @@ pip install -r requirements.txt
 ### 1. Pretrained LLaMa
 Prepare pretrained models following the [official instructions](https://github.com/facebookresearch/llama).
 
-### 2. Structural Pruning without Re-training
-
-#### 2.1 LLaMa-7B => LLaMa-1.7B
+### 2. LLaMa-7B => LLaMa-1.7B
 * \#Params: 6.73B => 1.72B  
 * Requires 20GB GPU memory on a single 3090.
 
@@ -28,7 +26,7 @@ Prepare pretrained models following the [official instructions](https://github.c
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
 
-#### 2.3 Finetuning
+### 3. Finetuning
 
 We are still developing fintuning code for downstream tasks.
 
