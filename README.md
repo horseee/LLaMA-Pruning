@@ -2,6 +2,9 @@
 
 This repository procides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their enormous number of parameters, often present challenges related to their size and computational demands. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
 
+**Available Pruners:**
+* Random Pruning for LLaMA-7B
+
 **TODO List:**
 * Structural Pruning for LLaMa-13B/33B/65B
 * More pruners: Magnitude-based Pruning / Sailency-based Pruning
