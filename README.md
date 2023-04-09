@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/badge/Torch--Pruning-v1.1.5-3f51b5.svg?style=flat-square" alt="Torch-Pruning">
   </a>
   <a href="https://github.com/facebookresearch/llama">
-    <img src="https://img.shields.io/badge/Meta-LLaMA-2196f3.svg?style=flat-square" alt="LLaMA">
+    <img src="https://img.shields.io/badge/LLMs-LLaMA-2196f3.svg?style=flat-square" alt="LLaMA">
   </a>
 </div>
 
