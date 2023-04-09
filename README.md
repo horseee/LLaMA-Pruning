@@ -19,10 +19,6 @@
 </div>
 
 
-
-
-
-
 This repository provides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their incredibly large number of parameters and computational demands, often present huge challenges to downstream applications. Structural Pruning offers a potential solution to this issue by removing parameters from models. To this end, this project aims to build a straightforward and general pipeline for the pruning of LLaMA and its variants.
 
 **Available Pruners:**
