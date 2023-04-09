@@ -46,12 +46,12 @@ Prepare pretrained models following the [official instructions](https://github.c
 * GPU RAM: 22,067M => 7,781 M
 * Requires ~20GB GPU memory on a single 3090 to prune the model.
 
-The instruction for model pruning:
+**Pruning:** The following script removes 50% of the dimensions in all layers of the LLaMA-7B model, resulting in a lightweight model with 1.72B parameters.
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMA/7B/ --tokenizer_path ckpt/LLaMA/tokenizer.model --pruning_ratio 0.5 --save_ckpt_name 'llama_prune_1.7B'
 ```
 
-The instruction for loading and testing the pruned model:
+**Testing:** After pruning, we can load and test the pruned model with some pre-defined prompts. 
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --save_ckpt_name llama_prune_1.7B --tokenizer_path ckpt/LLaMA/tokenizer.model
 ```
