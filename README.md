@@ -1,6 +1,6 @@
 <div align="left"> <h1>LLaMA-Pruning: Structural Pruning for LLaMa</h1> </div>
 
-This repository serves as an initial exploration of pruning Large Language Models (LLMs). LLMs are models with a massive number of parameters. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
+This repository procides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their enormous number of parameters, often present challenges related to their size and computational demands. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
 
 
 ## 0. Setup
