@@ -1,14 +1,15 @@
 <div align="left"> <h1>LLaMA-Pruning: Structural Pruning for LLaMA</h1> </div>
 
-This repository provides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their enormous number of parameters, often present challenges related to their size and computational demands. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
+This repository provides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their incredibly large number of parameters and computational demands, often present huge challenges to downstream applications. Structural Pruning offers a potential solution to this issue by removing parameters from models. To this end, this project aims to build a straightforward and general pipeline for the pruning of LLaMA and its variants.
 
 **Available Pruners:**
-* Random Pruning for LLaMA-7B
+* Random Pruning for LLaMA-7B.
 
 **TODO List:**
-* Structural Pruning for LLaMA-13B/33B/65B
-* More pruners: Magnitude-based Pruning / Sailency-based Pruning
-* Finetuning and Testing.
+* Structural Pruning for LLaMA-13B/33B/65B.
+* More pruners: Magnitude-based Pruning / Sailency-based Pruning.
+* Code for finetuning and testing.
+* More LLaMA variants.
 
 
 ## Qucik Start
@@ -26,7 +27,7 @@ Prepare pretrained models following the [official instructions](https://github.c
 * GPU RAM: 22,067M => 7,781 M
 * Requires ~20GB GPU memory on a single 3090 to prune the model.
 
-The instruction for pruning the model:
+The instruction for model pruning:
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMA/7B/ --tokenizer_path ckpt/LLaMA/tokenizer.model --pruning_ratio 0.5 --save_ckpt_name 'llama_prune_1.7B'
 ```
@@ -35,8 +36,7 @@ The instruction for loading and testing the pruned model:
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --save_ckpt_name llama_prune_1.7B --tokenizer_path ckpt/LLaMA/tokenizer.model
 ```
-
-Remember to modify the `ckpt_dir` and `tokenizer_path` to be your path of storing your LLaMA. The pruning ratio needs to be a multiple of n/64, where n is an integer. This relates to the partitioning of dimension in multi-head attention.
+Please modify the `ckpt_dir` and `tokenizer_path` based on your LLaMA weights. The pruning ratio needs to be one of {n/64| n=1,2,3,...,63}. This relates to the partitioning of dimension in multi-head attention.
 
 
 ### 3. Finetuning
