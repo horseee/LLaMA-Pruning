@@ -7,20 +7,25 @@ This repository procides minimal examples of pruning Large Language Models (LLMs
 * More pruners: Magnitude-based Pruning / Sailency-based Pruning
 * Finetuning Code.
 
-## 0. Setup
+
+## Qucik Start
+
+### 0. Setup
 ```
 pip install -r requirements.txt
 ```
 
-## 1. Pretrained LLaMa
+### 1. Pretrained LLaMa
 Prepare pretrained models following the [official instructions](https://github.com/facebookresearch/llama).
 
-## 2. Pruning and Testing (Random Pruning without Re-training)
+### 2. Structural Pruning without Re-training
+
+#### 2.1 LLaMa-7B => LLaMa-1.6B
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
-  
-### Outputs of Pruned LLaMA-7B
+
+#### 2.2 Outputs of Pruned LLaMA-7B
 
 <hr>
   
@@ -48,7 +53,7 @@ CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --
 <hr>
 
 
-## Finetuning
+#### 2.3 Finetuning
 
 We are still developing fintuning code for downstream tasks.
 
