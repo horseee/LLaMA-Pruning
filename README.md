@@ -23,6 +23,7 @@ Prepare pretrained models following the [official instructions](https://github.c
 
 ### 2. LLaMa-7B => LLaMa-1.7B
 * \#Params: 6.73B => 1.72B  
+* GPU RAM: 22,067M => 7,781 M
 * Requires 20GB GPU memory on a single 3090.
 
 ```bash
