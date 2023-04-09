@@ -2,16 +2,20 @@
 
 This repository procides minimal examples of pruning Large Language Models (LLMs). LLMs, characterized by their enormous number of parameters, often present challenges related to their size and computational demands. Structural Pruning offers a potential solution to this issue by reducing the size and complexity of LLMs. 
 
+**TODO List:**
+* Structural Pruning for LLaMa-13B/33B/65B
+* More pruners: Magnitude-based Pruning / Sailency-based Pruning
+* Finetuning Code.
 
 ## 0. Setup
 ```
 pip install -r requirements.txt
 ```
 
-## 1. Download Pretrained Models
-Following instructions from [the official repo](https://github.com/facebookresearch/llama).
+## 1. Pretrained LLaMa
+Prepare pretrained models following the [official instructions](https://github.com/facebookresearch/llama).
 
-## 2. Pruning and Testing (without Re-training)
+## 2. Pruning and Testing (Random Pruning without Re-training)
 ```bash
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
