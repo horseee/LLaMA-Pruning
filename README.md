@@ -13,7 +13,7 @@ Following instructions from [the official repo](https://github.com/facebookresea
 
 ## 2. Pruning and Testing (without Re-training)
 ```python
-CUDA_VISIBLE_DEVICES=4 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
+CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --master_port 18100 --nproc_per_node 1 prune_llama.py --ckpt_dir ckpt/LLaMa/7B/ --tokenizer_path ckpt/LLaMa/tokenizer.model
 ```
   
 ### Outputs of Pruned LLaMA-7B
