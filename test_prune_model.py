@@ -40,7 +40,7 @@ def setup_model_parallel() -> Tuple[int, int]:
     return local_rank, world_size
 
 def main(
-    ckpt_dir: str,
+    save_ckpt_name: str,
     tokenizer_path: str,
     temperature: float = 0.8,
     top_p: float = 0.95,
@@ -81,7 +81,7 @@ plush girafe => girafe peluche
 cheese =>""",
     ]
     tokenizer = Tokenizer(model_path=tokenizer_path)
-    model = torch.load(ckpt_dir, map_location='cpu').to('cuda')
+    model = torch.load("{}.pth".format(save_ckpt_name), map_location='cpu').to('cuda')
     generator = LLaMA(model, tokenizer)
 
     generator.model.eval()

@@ -76,7 +76,7 @@ def load(
 def main(
     ckpt_dir: str,
     tokenizer_path: str,
-    save_ckpt_path: str,
+    save_ckpt_name: str,
     temperature: float = 0.8,
     top_p: float = 0.95,
     max_seq_len: int = 512,
@@ -174,7 +174,7 @@ cheese =>""",
     gc.collect()
     torch.cuda.empty_cache()
     generator.model.to('cuda')
-    torch.save(generator.model, os.path.join('{}.bin'.format(save_ckpt_path)))
+    torch.save(generator.model, os.path.join('{}.pth'.format(save_ckpt_name)))
 
     generator.model.eval()
     with torch.no_grad():
