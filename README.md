@@ -61,7 +61,7 @@ ckpt
 ### 2. LLaMA-7B => LLaMA-1.7B
 * \#Params: 6.73B => 1.72B  
 * GPU RAM: 22,067M => 7,781 M
-* Requires ~20GB GPU memory on a single 3090 to prune the model.
+* Requires ~20GB GPU memory on a single 3090 to prune the model. Small pruning ratio may require more GPU memory.
 
 **Pruning:** The following script globally removes 50% of the dimensions of the LLaMA-7B model, resulting in a lightweight model with 1.72B parameters. Specify the pruner type with `--pruner_type <l1/l2/random>` and pruning ratio with `--pruning_ratio 0.5`.
 ```bash
