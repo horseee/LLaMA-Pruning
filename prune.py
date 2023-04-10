@@ -11,7 +11,7 @@ import time
 import json
 
 import torch_pruning as tp 
-from llama_pruner import RMSNormPrunner, AttentionPrunner
+import llama_pruner
 
 from pathlib import Path
 
@@ -79,11 +79,14 @@ def main(
     save_ckpt_name: str,
     pruning_ratio: int = 0.5,
     temperature: float = 0.8,
+    pruner_type = 'l2', # random, l2, l1
     top_p: float = 0.95,
     max_seq_len: int = 512,
     max_batch_size: int = 32,
     local_rank: int = -1,
 ):
+    pruner_type = pruner_type.lower()
+    assert pruner_type in ['random', 'l2', 'l1']
     local_rank, world_size = setup_model_parallel()
     if local_rank > 0:
         sys.stdout = open(os.devnull, "w")
@@ -140,8 +143,15 @@ cheese =>""",
         [    1,  3439, 17632,  1925, 29892,   278,  6368,   310],
     ]).cuda()
 
-    imp = tp.importance.RandomImportance()
-    
+    if pruner_type == 'random':
+        imp = tp.importance.RandomImportance()
+    elif pruner_type == 'l1':
+        imp = llama_pruner.MagnitudeImportance(p=1)
+    elif pruner_type == 'l2':
+        imp = llama_pruner.MagnitudeImportance(p=2)
+    else:
+        raise NotImplementedError
+    print("Use {} pruner...".format(pruner_type))
     iterative_steps = 1 
     pruner = tp.pruner.MagnitudePruner(
         generator.model,
@@ -151,11 +161,11 @@ cheese =>""",
         ch_sparsity=pruning_ratio, # remove 50% channels, ResNet18 = {64, 128, 256, 512} => ResNet18_Half = {32, 64, 128, 256}
         ignored_layers=[],
         customized_pruners = {
-            Attention: AttentionPrunner(),
-            RMSNorm: RMSNormPrunner(),
-            ColumnParallelLinear: tp.pruner.function.LinearPruner(),
-            RowParallelLinear: tp.pruner.function.LinearPruner(),
-            ParallelEmbedding: tp.pruner.function.EmbeddingPruner()
+            Attention: llama_pruner.attention_pruner,
+            RMSNorm: llama_pruner.rmsnorm_pruner,
+            ColumnParallelLinear: tp.pruner.function.PrunerBox[tp.ops.OPTYPE.LINEAR],
+            RowParallelLinear: tp.pruner.function.PrunerBox[tp.ops.OPTYPE.LINEAR],
+            ParallelEmbedding: tp.pruner.function.PrunerBox[tp.ops.OPTYPE.EMBED]
         },
         root_module_types = [ParallelEmbedding, RMSNorm, RowParallelLinear, ColumnParallelLinear, Attention]
     )

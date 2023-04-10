@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/badge/License-GPL%203.0-4caf50.svg?style=flat-square" alt="License: GPL-3.0">
   </a>
   <a href="https://pytorch.org/">
-    <img src="https://img.shields.io/badge/PyTorch-%3E%3D1.11.0-673ab7.svg?style=flat-square" alt="PyTorch >=v1.11.0">
+    <img src="https://img.shields.io/badge/PyTorch-%3E=v1.11.0-673ab7.svg?style=flat-square" alt="PyTorch>=v1.11.0">
   </a>
   <a href="https://github.com/horseee/LLaMA-Pruning/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/horseee/LLaMA-Pruning.svg?style=flat-square&color=9c27b0" alt="Contributors">
@@ -26,12 +26,14 @@ LLMs, characterized by their incredibly large number of parameters and computati
 
 **Available Features:**
 - [x] [Layer Pruner](https://github.com/horseee/LLaMA-Pruning/blob/main/llama_pruner.py) for basic layers in LLaMA.
-- [x] Random Structural Pruning for LLaMA-7B.
+- [x] Random Pruning for LLaMA-7B.
+- [x] L1/L2 Pruning for LLaMA-7B.
 
 **TODO List:**
 - [ ] Structural Pruning for LLaMA-13B/33B/65B.
-- [ ] More pruners: Magnitude-based Pruning / Sailency-based Pruning.
+- [ ] More pruners: Sailency-based Pruning.
 - [ ] Code for finetuning and testing.
+- [ ] Quantative results.
 - [ ] More LLMs.
 
 
@@ -45,12 +47,24 @@ pip install -r requirements.txt
 ### 1. Pretrained LLaMA
 Prepare pretrained models following the [official instructions](https://github.com/facebookresearch/llama).
 
+This example expects the following files to be available:
+```
+ckpt
+└── LLaMA
+    ├── 7B
+    │   ├── checklist.chk
+    │   ├── consolidated.00.pth
+    │   └── params.json
+    ├── tokenizer_checklist.chk
+    └── tokenizer.model
+```
+
 ### 2. LLaMA-7B => LLaMA-1.7B
 * \#Params: 6.73B => 1.72B  
 * GPU RAM: 22,067M => 7,781 M
 * Requires ~20GB GPU memory on a single 3090 to prune the model.
 
-**Pruning:** The following script globally removes 50% of the dimensions of the LLaMA-7B model, resulting in a lightweight model with 1.72B parameters.
+**Pruning:** The following script globally removes 50% of the dimensions of the LLaMA-7B model, resulting in a lightweight model with 1.72B parameters. Specify the pruner type with `--pruner_type <l1/l2/random>`.
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.py --ckpt_dir ckpt/LLaMA/7B/ --tokenizer_path ckpt/LLaMA/tokenizer.model --pruning_ratio 0.5 --save_ckpt_name 'llama_prune_1.7B'
 ```
