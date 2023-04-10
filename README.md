@@ -72,7 +72,7 @@ python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 prune.
 ```bash
 python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_prune_model.py --save_ckpt_name llama_prune_1.7B --tokenizer_path ckpt/LLaMA/tokenizer.model
 ```
-Please modify the `ckpt_dir` and `tokenizer_path` according to the path to your LLaMA weights. The pruning ratio must be one of {n/64| n=1,2,3,...,64}. This is caused by the partitioning in multi-head attention layers.
+Please modify the `ckpt_dir` and `tokenizer_path` according to the path to your LLaMA weights. 
 
 
 ### 3. Finetuning

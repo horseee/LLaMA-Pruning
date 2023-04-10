@@ -160,6 +160,7 @@ cheese =>""",
         iterative_steps=iterative_steps,
         ch_sparsity=pruning_ratio, # remove 50% channels, ResNet18 = {64, 128, 256, 512} => ResNet18_Half = {32, 64, 128, 256}
         ignored_layers=[],
+        round_to = generator.model.params.n_heads,
         customized_pruners = {
             Attention: llama_pruner.attention_pruner,
             RMSNorm: llama_pruner.rmsnorm_pruner,
@@ -176,7 +177,7 @@ cheese =>""",
         print("#Param before: {}, #Param after: {}".format(before_pruning_parameters, after_pruning_parameters))
 
     # modify inferece-related attributes
-    generator.model.params.dim = int(pruning_ratio * generator.model.params.dim)
+    generator.model.params.dim = generator.model.tok_embeddings.weight.shape[1]
     generator.model.freqs_cis = precompute_freqs_cis(
             generator.model.params.dim // generator.model.params.n_heads, generator.model.params.max_seq_len * 2
     )
