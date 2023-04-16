@@ -32,7 +32,7 @@ LLMs, characterized by their incredibly large number of parameters and computati
 **TODO List:**
 - [ ] Structural Pruning for LLaMA-13B/33B/65B.
 - [ ] More pruners: Sailency-based Pruning.
-- [ ] Code for finetuning and testing.
+- [ ] Code for finetuning and post-training of the pruned model.
 - [ ] Quantative results.
 - [ ] More LLMs.
 
@@ -75,9 +75,9 @@ python -m torch.distributed.launch --master_port 18101 --nproc_per_node 1 test_p
 Please modify the `ckpt_dir` and `tokenizer_path` according to the path to your LLaMA weights. 
 
 
-### 3. Finetuning
+### 3. Finetuning / Post Training
 
-We are still developing fintuning code for downstream tasks. 
+The pruning impacts the model's structure and hurts the performance of the model, necessitating the post-training or fine-tuning of the model on the downstream tasks. We are still developing code for this part.
 
 ## Acknowledgement
 
