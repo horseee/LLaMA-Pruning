@@ -29,11 +29,12 @@ LLMs, characterized by their incredibly large number of parameters and computati
 - [x] Random Pruning for LLaMA-7B.
 - [x] L1/L2 Pruning for LLaMA-7B.
 
-**TODO List:**
-- [ ] Structural Pruning for LLaMA-13B/33B/65B.
-- [ ] More pruners: Sailency-based Pruning.
+**TODO List:** 
+- [ ] Support LlamaForCausalLM in huggingface/transformers
 - [ ] Code for finetuning and post-training of the pruned model.
 - [ ] Quantative results.
+- [ ] Structural Pruning for LLaMA-13B/33B/65B.
+- [ ] More pruners: Sailency-based Pruning.
 - [ ] More LLMs.
 
 ## Qucik Start
